@@ -34,7 +34,7 @@ def save_upload_file(PostFile,FilePath):
 
 @csrf_exempt
 def get_ueditor_settings(request):
-    return HttpResponse(json.dumps(USettings.UEditorUploadSettings,ensure_ascii=False), content_type="application/javascript")
+    return HttpResponse(json.dumps(USettings.UEditorUploadSettings,ensure_ascii=False), content_type="application/javascript; charset=utf-8")
 @csrf_exempt
 def get_ueditor_controller(request):
     """获取ueditor的后端URL地址    """
@@ -57,7 +57,7 @@ def get_ueditor_controller(request):
 def list_files(request):
     """列出文件"""
     if request.method!="GET":
-        return  HttpResponse(json.dumps(u"{'state:'ERROR'}") ,content_type="application/javascript")
+        return  HttpResponse(json.dumps(u"{'state:'ERROR'}") ,content_type="application/javascript; charset=utf-8")
     #取得动作
     action=request.GET.get("action","listimage")
 
@@ -96,7 +96,7 @@ def list_files(request):
             "total":len(files)
         }
 
-    return HttpResponse(json.dumps(return_info),content_type="application/javascript")
+    return HttpResponse(json.dumps(return_info),content_type="application/javascript; charset=utf-8")
 
 
 def get_files(root_path,cur_path, allow_types=[]):
@@ -123,7 +123,7 @@ def get_files(root_path,cur_path, allow_types=[]):
 def UploadFile(request):
     """上传文件"""
     if not request.method=="POST":
-        return  HttpResponse(json.dumps(u"{'state:'ERROR'}"),content_type="application/javascript")
+        return  HttpResponse(json.dumps(u"{'state:'ERROR'}"),content_type="application/javascript; charset=utf-8")
 
     state="SUCCESS"
     action=request.GET.get("action")
@@ -142,7 +142,7 @@ def UploadFile(request):
     else:
         #取得上传的文件
         file=request.FILES.get(UploadFieldName,None)
-        if file is None:return  HttpResponse(json.dumps(u"{'state:'ERROR'}") ,content_type="application/javascript")
+        if file is None:return  HttpResponse(json.dumps(u"{'state:'ERROR'}") ,content_type="application/javascript; charset=utf-8")
         upload_file_name=file.name
         upload_file_size=file.size
 
@@ -212,7 +212,7 @@ def UploadFile(request):
         'state': state,                         #上传状态，成功时返回SUCCESS,其他任何值将原样返回至图片上传框中
         'size': upload_file_size
     }
-    return HttpResponse(json.dumps(return_info,ensure_ascii=False),content_type="application/javascript")
+    return HttpResponse(json.dumps(return_info,ensure_ascii=False),content_type="application/javascript; charset=utf-8")
 
 @csrf_exempt
 def catcher_remote_image(request):
@@ -220,7 +220,7 @@ def catcher_remote_image(request):
         如果前端插入图片地址与当前web不在同一个域，则由本函数从远程下载图片到本地
     """
     if not request.method=="POST":
-        return  HttpResponse(json.dumps( u"{'state:'ERROR'}"),content_type="application/javascript")
+        return  HttpResponse(json.dumps( u"{'state:'ERROR'}"),content_type="application/javascript; charset=utf-8")
 
     state="SUCCESS"
 
@@ -273,7 +273,7 @@ def catcher_remote_image(request):
         "list":catcher_infos
     }
 
-    return HttpResponse(json.dumps(return_info,ensure_ascii=False),content_type="application/javascript")
+    return HttpResponse(json.dumps(return_info,ensure_ascii=False),content_type="application/javascript; charset=utf-8")
 
 
 def get_output_path(request,path_format,path_format_var):
